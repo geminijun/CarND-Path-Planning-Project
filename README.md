@@ -1,6 +1,18 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
-   
+
+### How I generete path
+
+First, I defined a variable state to indicate current car's status, 0 means keep lane, 1 means changing to left and 2 means change to right
+If the car is in the keeping lane status, then the target lane should be same with current lane.(line 248)
+And if car is not in the keeping lanse status and the current car's lane is equal to target lane, that means changing lane is completed(line 251)
+Then I would check if there is any car same with current car's lane will be to close to my car(line 260 ~ 276), I actually refer the code in the class.
+If it's too close, I will first reduce the car's speed to gurantee safty, then to tried to change lane. I assume the left lane will always be faster then right lane so I check if it's safe to change lane to left first(line 283 ~ 300)
+If I can't change to left, then I will check if I can change to the right lane.(line 305 ~ 327)
+After those checking, I set my target car speed, target lane and car's state accordingly.
+Then I refer the code in the class, to try to generate a spline first(line 334 ~ 387)
+Finally I generated next 50 way point by the spline
+
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases).
 
@@ -38,13 +50,13 @@ Here is the data provided from the Simulator to the C++ Program
 #### Previous path data given to the Planner
 
 //Note: Return the previous list but with processed points removed, can be a nice tool to show how far along
-the path has processed since last time. 
+the path has processed since last time.
 
 ["previous_path_x"] The previous list of x points previously given to the simulator
 
 ["previous_path_y"] The previous list of y points previously given to the simulator
 
-#### Previous path's end s and d values 
+#### Previous path's end s and d values
 
 ["end_path_s"] The previous list's last point's frenet s value
 
@@ -52,7 +64,7 @@ the path has processed since last time.
 
 #### Sensor Fusion Data, a list of all other car's attributes on the same side of the road. (No Noise)
 
-["sensor_fusion"] A 2d vector of cars and then that car's [car's unique ID, car's x position in map coordinates, car's y position in map coordinates, car's x velocity in m/s, car's y velocity in m/s, car's s position in frenet coordinates, car's d position in frenet coordinates. 
+["sensor_fusion"] A 2d vector of cars and then that car's [car's unique ID, car's x position in map coordinates, car's y position in map coordinates, car's x velocity in m/s, car's y velocity in m/s, car's s position in frenet coordinates, car's d position in frenet coordinates.
 
 ## Details
 
@@ -82,7 +94,7 @@ A really helpful resource for doing this project and creating smooth trajectorie
   * Run either `install-mac.sh` or `install-ubuntu.sh`.
   * If you install from source, checkout to commit `e94b6e1`, i.e.
     ```
-    git clone https://github.com/uWebSockets/uWebSockets 
+    git clone https://github.com/uWebSockets/uWebSockets
     cd uWebSockets
     git checkout e94b6e1
     ```
